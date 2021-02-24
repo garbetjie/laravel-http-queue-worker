@@ -1,0 +1,40 @@
+{
+    "name": "garbetjie/laravel-http-queue-worker",
+    "description": "Laravel queue processor that handles incoming queue jobs over HTTP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Geoff Garbers",
+            "email": "geoff@garbers.co.za"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Garbetjie\\Laravel\\HttpQueueWorker\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "illuminate/http": "^6.0 || ^7.0 || ^8.0",
+        "illuminate/queue": "^6.0 || ^7.0 || ^8.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Garbetjie\\Laravel\\HttpQueueWorker\\ServiceProvider"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "laravel/framework": "^6.0 || ^7.0 || ^8.0",
+        "orchestra/testbench": "^4.0 || ^5.0 || ^6.0",
+        "phpunit/phpunit": "^9.5"
+    }
+}
