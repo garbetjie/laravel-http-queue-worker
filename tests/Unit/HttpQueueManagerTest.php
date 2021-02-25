@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Garbetjie\Laravel\HttpQueueWorker\Handler\CloudTasks;
+use Garbetjie\Laravel\HttpQueueWorker\HttpJob;
 use Garbetjie\Laravel\HttpQueueWorker\HttpQueueManager;
-use Garbetjie\Laravel\HttpQueueWorker\Job;
+use Garbetjie\Laravel\HttpQueueWorker\Parsers\CloudTasksParser;
 use Illuminate\Http\Request;
 use ReflectionObject;
 use Tests\MakesHandlerRequests;
@@ -54,12 +54,12 @@ class HttpQueueManagerTest extends TestCase
     public function testJobCanBeResolved()
     {
         $manager = new HttpQueueManager($this->app);
-        $manager->extend('google cloud tasks', fn() => new CloudTasks($this->app));
+        $manager->extend('google cloud tasks', fn() => new CloudTasksParser($this->app));
 
         $request = new Request();
         $request->headers->add($this->makeCloudTasksRequestHeaders());
 
-        $this->assertInstanceOf(Job::class, $manager->capture($request));
+        $this->assertInstanceOf(HttpJob::class, $manager->capture($request));
     }
 
     protected function getHandlersFromManager(HttpQueueManager $manager)

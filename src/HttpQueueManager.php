@@ -61,12 +61,24 @@ class HttpQueueManager
     }
 
     /**
+     * Remove all registered handlers.
+     *
+     * @return $this
+     */
+    public function clear()
+    {
+        $this->handlers = [];
+
+        return $this;
+    }
+
+    /**
      * Runs the provided request through all the handlers, and returns the first job provided by any of the handlers.
      *
      * @param Request $request
-     * @return Job|null
+     * @return HttpJob|null
      */
-    public function capture(Request $request): ?Job
+    public function capture(Request $request): ?HttpJob
     {
         foreach ($this->handlers as $name => $fn) {
             if ($job = $this->resolveJob($this->resolveParser($fn), $request)) {

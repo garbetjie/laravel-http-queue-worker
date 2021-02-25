@@ -1,17 +1,15 @@
 <?php
 
-namespace Tests\Unit\Handler;
+namespace Tests\Unit\Parsers;
 
-use Garbetjie\Laravel\HttpQueueWorker\Handler\CloudTasks;
-use Illuminate\Foundation\Testing\WithFaker;
+use Garbetjie\Laravel\HttpQueueWorker\Parsers\CloudTasksParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Tests\MakesHandlerRequests;
 use Tests\TestCase;
 
-class CloudTasksTest extends TestCase
+class CloudTasksParserTest extends TestCase
 {
-    use WithFaker;
     use MakesHandlerRequests;
 
     public function testJobIsParsedSuccessfully()
@@ -19,7 +17,7 @@ class CloudTasksTest extends TestCase
         $request = new Request();
         $request->headers->add($this->makeCloudTasksRequestHeaders());
 
-        $handler = new CloudTasks($this->app);
+        $handler = new CloudTasksParser($this->app);
 
         $this->assertNotNull($handler($request));
     }
@@ -34,7 +32,7 @@ class CloudTasksTest extends TestCase
         $request = new Request();
         $request->headers->add($headers);
 
-        $handler = new CloudTasks($this->app);
+        $handler = new CloudTasksParser($this->app);
 
         $this->assertNull($handler($request));
     }

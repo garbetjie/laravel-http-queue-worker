@@ -29,7 +29,7 @@ class HttpQueueController
         }
 
         try {
-            $this->getQueueWorker()->process(null, $job, $this->getWorkerOptions());
+            $this->getQueueWorker()->process($job->getConnectionName(), $job, $this->getWorkerOptions());
         } catch (Throwable $e) {
             $this->handleProcessingException($e);
         }

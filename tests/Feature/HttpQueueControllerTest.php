@@ -30,13 +30,13 @@ class HttpQueueControllerTest extends TestCase
     public function testJobRunsSuccessfully(array $headers)
     {
         // Reset the job.
-        DoesItRunJob::reset();
+        DoesItRunJob::$ran = false;
 
         // Parse & run the job.
         $this->postJson('/', $this->makePayload(new DoesItRunJob()), $headers);
 
         // Ensure it ran.
-        $this->assertTrue(DoesItRunJob::ran());
+        $this->assertTrue(DoesItRunJob::$ran);
     }
 
     public function successfulRequestDataProvider(): array

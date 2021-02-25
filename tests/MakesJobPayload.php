@@ -17,4 +17,14 @@ trait MakesJobPayload
 
         return $method->invoke($queue, $job, 'default');
     }
+
+    protected function makePayloadString(ShouldQueue $job): string
+    {
+        $queue = new NullQueue();
+
+        $method = (new ReflectionObject($queue))->getMethod('createPayload');
+        $method->setAccessible(true);
+
+        return $method->invoke($queue, $job, 'default');
+    }
 }
