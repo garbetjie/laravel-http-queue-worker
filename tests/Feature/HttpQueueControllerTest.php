@@ -3,14 +3,14 @@
 namespace Tests\Feature;
 
 use Illuminate\Support\Str;
-use Tests\MakesHandlerRequests;
+use Tests\MakesParserRequests;
 use Tests\MakesJobPayload;
 use Tests\Jobs\DoesItRunJob;
 use Tests\TestCase;
 
 class HttpQueueControllerTest extends TestCase
 {
-    use MakesJobPayload, MakesHandlerRequests;
+    use MakesJobPayload, MakesParserRequests;
 
     /**
      * @dataProvider successfulRequestDataProvider

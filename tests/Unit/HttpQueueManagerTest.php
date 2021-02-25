@@ -7,22 +7,22 @@ use Garbetjie\Laravel\HttpQueueWorker\HttpQueueManager;
 use Garbetjie\Laravel\HttpQueueWorker\Parsers\CloudTasksParser;
 use Illuminate\Http\Request;
 use ReflectionObject;
-use Tests\MakesHandlerRequests;
+use Tests\MakesParserRequests;
 use Tests\TestCase;
 use function reset;
 
 class HttpQueueManagerTest extends TestCase
 {
-    use MakesHandlerRequests;
+    use MakesParserRequests;
 
     public function testParserCanBeAddedToEnd()
     {
         $manager = new HttpQueueManager($this->app);
         $manager->extend('my parser', fn() => null);
 
-        $handlers = $this->getHandlersFromManager($manager);
+        $parsers = $this->getParsersFromManager($manager);
 
-        $this->assertCount(1, $handlers);
+        $this->assertCount(1, $parsers);
     }
 
     public function testParserCanBeAddedToBeginning()
@@ -31,7 +31,7 @@ class HttpQueueManagerTest extends TestCase
         $manager->extend('parser2', fn() => null);
         $manager->unshift('parser1', fn() => null);
 
-        $parsers = $this->getHandlersFromManager($manager);
+        $parsers = $this->getParsersFromManager($manager);
 
         $this->assertCount(2, $parsers);
 
@@ -44,11 +44,11 @@ class HttpQueueManagerTest extends TestCase
         $manager = new HttpQueueManager($this->app);
         $manager->extend('parser', fn() => null);
 
-        $this->assertCount(1, $this->getHandlersFromManager($manager));
+        $this->assertCount(1, $this->getParsersFromManager($manager));
 
         $manager->remove('parser');
 
-        $this->assertCount(0, $this->getHandlersFromManager($manager));
+        $this->assertCount(0, $this->getParsersFromManager($manager));
     }
 
     public function testJobCanBeResolved()
@@ -62,9 +62,9 @@ class HttpQueueManagerTest extends TestCase
         $this->assertInstanceOf(HttpJob::class, $manager->capture($request));
     }
 
-    protected function getHandlersFromManager(HttpQueueManager $manager)
+    protected function getParsersFromManager(HttpQueueManager $manager)
     {
-        $prop = (new ReflectionObject($manager))->getProperty('handlers');
+        $prop = (new ReflectionObject($manager))->getProperty('parsers');
         $prop->setAccessible(true);
 
         return $prop->getValue($manager);

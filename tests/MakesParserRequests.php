@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Str;
 
-trait MakesHandlerRequests
+trait MakesParserRequests
 {
     protected function makeCloudTasksRequestHeaders(): array
     {

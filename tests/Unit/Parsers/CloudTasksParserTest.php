@@ -5,21 +5,21 @@ namespace Tests\Unit\Parsers;
 use Garbetjie\Laravel\HttpQueueWorker\Parsers\CloudTasksParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Tests\MakesHandlerRequests;
+use Tests\MakesParserRequests;
 use Tests\TestCase;
 
 class CloudTasksParserTest extends TestCase
 {
-    use MakesHandlerRequests;
+    use MakesParserRequests;
 
     public function testJobIsParsedSuccessfully()
     {
         $request = new Request();
         $request->headers->add($this->makeCloudTasksRequestHeaders());
 
-        $handler = new CloudTasksParser($this->app);
+        $parser = new CloudTasksParser($this->app);
 
-        $this->assertNotNull($handler($request));
+        $this->assertNotNull($parser($request));
     }
 
     /**
@@ -32,9 +32,9 @@ class CloudTasksParserTest extends TestCase
         $request = new Request();
         $request->headers->add($headers);
 
-        $handler = new CloudTasksParser($this->app);
+        $parser = new CloudTasksParser($this->app);
 
-        $this->assertNull($handler($request));
+        $this->assertNull($parser($request));
     }
 
     public function parseFailureDataProvider(): array
