@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void extend(string $name, Closure $handler)
- * @method static void unshift(string $name, Closure $handler)
+ * @method static void extend(string $name, Closure $parser)
+ * @method static void unshift(string $name, Closure $parser)
  * @method static void remove(string $name)
+ * @method static HttpQueueManager clear()
  * @method static JobContract|null capture(Request $request)
  *
  * @mixin HttpQueueManager

@@ -13,7 +13,7 @@ class HttpQueueManager
     /**
      * @var Closure[]
      */
-    protected $handlers = [];
+    protected $parsers = [];
 
     /**
      * @var Container
@@ -29,58 +29,58 @@ class HttpQueueManager
     }
 
     /**
-     * Add a new handler for extracting jobs to the end of the list.
+     * Add a new parser for resolving jobs to the end of the list.
      *
      * @param string $name
      * @param Closure $fn
      */
     public function extend(string $name, Closure $fn)
     {
-        $this->handlers[$name] = $fn;
+        $this->parsers[$name] = $fn;
     }
 
     /**
-     * Add a new handler to the beginning of the list.
+     * Add a new parser to the beginning of the list.
      *
      * @param string $name
      * @param Closure $fn
      */
     public function unshift(string $name, Closure $fn)
     {
-        $this->handlers = [$name => $fn] + $this->handlers;
+        $this->parsers = [$name => $fn] + $this->parsers;
     }
 
     /**
-     * Remove the specified handler if it is defined.
+     * Remove the specified parser if it is defined.
      *
      * @param string $name
      */
     public function remove(string $name)
     {
-        unset($this->handlers[$name]);
+        unset($this->parsers[$name]);
     }
 
     /**
-     * Remove all registered handlers.
+     * Remove all registered parsers.
      *
      * @return $this
      */
     public function clear()
     {
-        $this->handlers = [];
+        $this->parsers = [];
 
         return $this;
     }
 
     /**
-     * Runs the provided request through all the handlers, and returns the first job provided by any of the handlers.
+     * Runs the provided request through all the parsers, and returns the first job provided by any of the parsers.
      *
      * @param Request $request
      * @return HttpJob|null
      */
     public function capture(Request $request): ?HttpJob
     {
-        foreach ($this->handlers as $name => $fn) {
+        foreach ($this->parsers as $name => $fn) {
             if ($job = $this->resolveJob($this->resolveParser($fn), $request)) {
                 return $job;
             }

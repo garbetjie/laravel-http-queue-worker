@@ -8,16 +8,16 @@ use Throwable;
 
 class NotCapturedException extends Exception
 {
-    protected $request;
+    protected Request $request;
 
     public function __construct(Request $request)
     {
-        $this->request;
+        $this->request = $request;
 
-        parent::__construct('No handler found to capture job from request');
+        parent::__construct('No parser found to capture job from request');
     }
 
-    public function getRequest()
+    public function request(): Request
     {
         return $this->request;
     }
