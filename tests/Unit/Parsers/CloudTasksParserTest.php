@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Parsers;
 
-use Garbetjie\Laravel\HttpQueueWorker\Parsers\CloudTasksParser;
+use Garbetjie\Laravel\HttpQueueWorker\Parsers\GoogleCloudTasksParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Tests\MakesParserRequests;
@@ -17,7 +17,7 @@ class CloudTasksParserTest extends TestCase
         $request = new Request();
         $request->headers->add($this->makeCloudTasksRequestHeaders());
 
-        $parser = new CloudTasksParser($this->app);
+        $parser = new GoogleCloudTasksParser($this->app);
 
         $this->assertNotNull($parser($request));
     }
@@ -32,7 +32,7 @@ class CloudTasksParserTest extends TestCase
         $request = new Request();
         $request->headers->add($headers);
 
-        $parser = new CloudTasksParser($this->app);
+        $parser = new GoogleCloudTasksParser($this->app);
 
         $this->assertNull($parser($request));
     }

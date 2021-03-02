@@ -4,10 +4,13 @@ namespace Tests\Unit;
 
 use Garbetjie\Laravel\HttpQueueWorker\HttpJob;
 use Illuminate\Http\Request;
+use Illuminate\Queue\CallQueuedHandler;
 use Illuminate\Support\Facades\Queue;
-use Tests\Jobs\DoesItRunJob;
+use Tests\Jobs\FailManuallyJob;
+use Tests\Jobs\RunJob;
 use Tests\MakesJobPayload;
 use Tests\TestCase;
+use function get_class;
 
 class HttpJobTest extends TestCase
 {
@@ -22,7 +25,7 @@ class HttpJobTest extends TestCase
 
     public function testRawBodyIsPopulatedCorrectly()
     {
-        $payload = $this->makePayloadString(new DoesItRunJob());
+        $payload = $this->makePayloadString(new RunJob());
         $job = new HttpJob($this->app, fn() => null, new Request(), 'default', 'id', $payload, 0);
 
         $this->assertSame($payload, $job->getRawBody());
@@ -33,17 +36,5 @@ class HttpJobTest extends TestCase
         $job = new HttpJob($this->app, fn() => null, new Request(), 'default', 'id', 'body', 2425);
 
         $this->assertSame(2425, $job->attempts());
-    }
-
-    public function testReleasingWorksSuccessfully()
-    {
-        $queue = Queue::fake();
-
-        $job = new HttpJob($this->app, fn() => null, new Request(), 'default', 'id', $this->makePayloadString(new DoesItRunJob()), 0);
-        $job->fire();
-
-        $this->assertCount(0, $queue->pushedJobs());
-        $job->release();
-        $this->assertCount(1, $queue->pushedJobs());
     }
 }

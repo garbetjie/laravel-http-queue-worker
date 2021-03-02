@@ -8,7 +8,7 @@ use ReflectionObject;
 
 trait MakesJobPayload
 {
-    protected function makePayload(ShouldQueue $job): array
+    protected function makePayload($job): array
     {
         $queue = new NullQueue();
 
@@ -18,7 +18,7 @@ trait MakesJobPayload
         return $method->invoke($queue, $job, 'default');
     }
 
-    protected function makePayloadString(ShouldQueue $job): string
+    protected function makePayloadString($job): string
     {
         $queue = new NullQueue();
 

@@ -8,14 +8,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class DoesItRunJob implements ShouldQueue
+class ReleaseJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public static bool $ran = false;
-
     public function handle()
     {
-        static::$ran = true;
+        $this->release();
     }
 }

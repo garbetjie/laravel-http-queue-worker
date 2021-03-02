@@ -8,14 +8,14 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class DoesItFailJob implements ShouldQueue
+class RunJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $tries = 3;
+    public static bool $ran = false;
 
     public function handle()
     {
-        $this->fail();
+        static::$ran = true;
     }
 }
