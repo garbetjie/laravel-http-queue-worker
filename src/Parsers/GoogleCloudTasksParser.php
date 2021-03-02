@@ -5,7 +5,7 @@ namespace Garbetjie\Laravel\HttpQueueWorker\Parsers;
 use Garbetjie\Laravel\HttpQueueWorker\HttpJob;
 use Illuminate\Http\Request;
 
-class CloudTasksParser extends Parser
+class GoogleCloudTasksParser extends Parser
 {
     public function __invoke(Request $request): ?HttpJob
     {

@@ -33,10 +33,14 @@ class HttpQueueManager
      *
      * @param string $name
      * @param Closure $fn
+     *
+     * @return $this
      */
     public function extend(string $name, Closure $fn)
     {
         $this->parsers[$name] = $fn;
+
+        return $this;
     }
 
     /**
@@ -44,20 +48,28 @@ class HttpQueueManager
      *
      * @param string $name
      * @param Closure $fn
+     *
+     * @return $this
      */
     public function unshift(string $name, Closure $fn)
     {
         $this->parsers = [$name => $fn] + $this->parsers;
+
+        return $this;
     }
 
     /**
      * Remove the specified parser if it is defined.
      *
      * @param string $name
+     *
+     * @return $this
      */
     public function remove(string $name)
     {
         unset($this->parsers[$name]);
+
+        return $this;
     }
 
     /**
