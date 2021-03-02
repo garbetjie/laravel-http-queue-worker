@@ -77,32 +77,40 @@ class HttpJob extends BaseJob implements JobContract
         return $this->parser;
     }
 
+    /**
+     * @return string|null
+     */
     public function getJobId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getRawBody()
     {
         return $this->body;
     }
 
+    /**
+     * @return int
+     */
     public function attempts()
     {
         return $this->attempts;
     }
 
+    /**
+     * @param int $delay
+     */
     public function release($delay = 0)
     {
-        parent::release($delay);
-
-        $this->container->get(QueueManager::class)
-            ->connection($this->getConnectionName())
-            ->later($delay, $this->getResolvedJob(), $this->getQueue());
+        // void
     }
 
     public function getConnectionName()
     {
-        return $this->connectionName ?: $this->container->make('httpQueue.connectionResolver')($this);
+        return $this->connectionName;
     }
 }
